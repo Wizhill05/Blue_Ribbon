@@ -37,8 +37,9 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
-}
 
-flutter {
-    source = "../.."
+
+    flutter {
+        source = "../.."
+    }
 }

@@ -48,7 +48,7 @@ class _AskState extends State<Ask> {
             },
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(1000))),
-            backgroundColor: textC,
+            backgroundColor: toColor("#000500"),
             child: Center(
               child: Container(
                 width: 300,
@@ -61,7 +61,8 @@ class _AskState extends State<Ask> {
                           padding: const EdgeInsets.fromLTRB(36, 0, 0, 0),
                           child: Text(
                             "Summarize",
-                            style: TextStyle(color: bgC, fontSize: 20),
+                            style: TextStyle(
+                                color: toColor("d2ffcf"), fontSize: 20),
                           ),
                         )),
                     Align(
@@ -69,7 +70,7 @@ class _AskState extends State<Ask> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 36, 0),
                         child: Icon(
-                          color: bgC,
+                          color: toColor("d2ffcf"),
                           Icons.send_rounded,
                           size: 32, // Increase the icon size if needed
                         ),
@@ -82,42 +83,62 @@ class _AskState extends State<Ask> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-                alignment: const Alignment(0, -1),
-                child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: 120,
-                  child: const Align(
-                      alignment: Alignment(-1, 1),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                        child: Text(
-                          "Ask",
-                          style: TextStyle(
-                              fontSize: 50, fontWeight: FontWeight.w900),
-                        ),
-                      )),
-                )),
-            Divider(
-              color: textC,
-              thickness: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: toColor("333A3F"), width: 5),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-                    child: reusableTextField("Enter Text", _text),
+      body: Container(
+        height: MediaQuery.sizeOf(context).height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                bgC,
+                toColor("bfffc2"),
+                toColor("96ff9a"),
+              ],
+              stops: const [
+                0,
+                0.5,
+                1
+              ]),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Align(
+                  alignment: const Alignment(0, -1),
+                  child: SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: 120,
+                    child: Align(
+                        alignment: const Alignment(-1, 1),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: Text(
+                            "Ask",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900,
+                                color: toColor("#020f00")),
+                          ),
+                        )),
                   )),
-            ),
-          ],
+              Divider(
+                color: toColor("#020f00"),
+                thickness: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: toColor("333A3F"), width: 5),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                      child: reusableTextField("Enter Text", _text),
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

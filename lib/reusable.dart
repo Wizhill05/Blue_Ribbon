@@ -32,10 +32,7 @@ Image logoWidget(String imageName, double x, double y) {
 Widget Book(BuildContext context, String link, String title, String data) {
   return GestureDetector(
     onTap: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Reader(title: title, data: data)));
+      Navigator.push(context, _ReaderRoute(title, data));
     },
     child: Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -71,6 +68,19 @@ Widget Book(BuildContext context, String link, String title, String data) {
         ],
       ),
     ),
+  );
+}
+
+Route _ReaderRoute(String title, String data) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        Reader(title: title, data: data),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation.drive(CurveTween(curve: Curves.ease)),
+        child: child,
+      );
+    },
   );
 }
 
@@ -157,19 +167,28 @@ Future<void> playAudio(String url) async {
 Widget reusableTextField(String text, TextEditingController controller) {
   return TextField(
     controller: controller,
-    cursorColor: textC,
+    cursorColor: toColor("#020800"),
     cursorWidth: 2,
     cursorHeight: 20,
-    style: TextStyle(color: textC, fontSize: 24, fontWeight: FontWeight.w900),
+    style: TextStyle(
+        color: toColor("#020800"), fontSize: 24, fontWeight: FontWeight.w900),
     maxLines: null,
     decoration: InputDecoration(
       labelText: text,
       labelStyle: TextStyle(
-          color: textC.withAlpha(200),
+          color: toColor("#020800").withAlpha(160),
           fontWeight: FontWeight.bold,
           fontSize: 20),
       filled: false,
       floatingLabelBehavior: FloatingLabelBehavior.never,
+      enabledBorder: UnderlineInputBorder(
+        borderSide:
+            BorderSide(color: toColor("#020f00"), width: 2), // Dark green color
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide:
+            BorderSide(color: toColor("#072000"), width: 2), // Dark green color
+      ),
     ),
     keyboardType:
         TextInputType.multiline, // Change to multiline for non-password fields

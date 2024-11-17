@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 import '../reusable.dart';
 
@@ -24,6 +25,7 @@ class _ReaderState extends State<Reader> {
   String _definition = "";
   String _audio = "";
   String _transcription = "";
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -73,6 +75,23 @@ class _ReaderState extends State<Reader> {
         backgroundColor: bgC,
       ),
       body: Stack(children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  bgC,
+                  toColor("b2f7e3"),
+                  toColor("6de3c0"),
+                ],
+                stops: const [
+                  0,
+                  0.3,
+                  1
+                ]),
+          ),
+        ),
         SizedBox(
           height: MediaQuery.sizeOf(context).height - 320,
           child: SingleChildScrollView(
@@ -84,15 +103,30 @@ class _ReaderState extends State<Reader> {
                   child: StoryContainer(
                     words: displayedWords,
                     onWordTap: (word) async {
+                      setState(() {
+                        _isLoading = true; // Set loading state to true
+                      });
+
                       List<Map<String, String>> wordDetails =
                           await fetchWordDefinition(word);
+
+                      // Simulate a delay for loading (for demonstration purposes)
+
+                      await Future.delayed(const Duration(seconds: 1));
+
+                      setState(() {
+                        _isLoading = false; // Set loading state to false
+                      });
 
                       if (wordDetails.isNotEmpty) {
                         setState(() {
                           _word = word;
+
                           _definition = wordDetails[0]['definition']!;
+
                           _transcription =
                               wordDetails[0]['phonetic']!.toLowerCase();
+
                           _audio = wordDetails[0]['audio']!;
                         });
                       } else {
@@ -104,6 +138,17 @@ class _ReaderState extends State<Reader> {
                     textSize: _sliderValue,
                   ),
                 ),
+
+                // Display loading indicator if _isLoading is true
+
+                if (_isLoading)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                      child:
+                          Lottie.asset("assets/LoaderSmall.json", height: 60),
+                    ),
+                  ),
                 Stack(children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -112,7 +157,8 @@ class _ReaderState extends State<Reader> {
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: const Color(0xFF333A3F), width: 5),
-                          color: bgC, // Replace with your bgC variable
+                          color: bgC.withOpacity(
+                              0.5), // Replace with your bgC variable
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -188,7 +234,7 @@ class _ReaderState extends State<Reader> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: toColor("333A3F"), width: 5),
-                    color: toColor("56C0A1"),
+                    color: bgC.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(1000)),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -211,7 +257,7 @@ class _ReaderState extends State<Reader> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: toColor("333A3F"), width: 5),
-                    color: toColor("56C0A1"),
+                    color: bgC.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(1000)),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -231,7 +277,7 @@ class _ReaderState extends State<Reader> {
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(color: toColor("333A3F"), width: 5),
-                  color: toColor("56C0A1"),
+                  color: bgC.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(1000)),
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -249,13 +295,14 @@ class _ReaderState extends State<Reader> {
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(color: toColor("333A3F"), width: 5),
-                  color: toColor("56C0A1"),
-                  borderRadius: BorderRadius.circular(1000)),
+                  color: bgC.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(20)),
               height: 70,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: Slider(
                   activeColor: textC,
+                  inactiveColor: textC,
                   value: _sliderValue,
                   min: 15,
                   max: 30,
@@ -294,7 +341,7 @@ class StoryContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF333A3F), width: 5),
-        color: bgC, // Replace with your bgC variable
+        color: bgC.withOpacity(0.5), // Replace with your bgC variable
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -316,7 +363,10 @@ class StoryContainer extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                     child: Text(
                       word,
-                      style: TextStyle(fontSize: textSize), // Use textSize here
+                      style: TextStyle(
+                          fontSize: textSize,
+                          color: textCDark,
+                          fontWeight: FontWeight.w500), // Use textSize here
                     ),
                   ),
                 ),
