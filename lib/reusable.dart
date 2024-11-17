@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
-import 'package:team_contrast_hackloop/screens/reader.dart';
+import 'package:blue_ribbon/screens/reader.dart';
 
 import 'main.dart';
 
@@ -16,8 +16,9 @@ toColor(String hexColor) {
   return Color(int.parse(hexColor, radix: 16));
 }
 
-Color bgC = toColor("fff6e5");
-Color textC = toColor("333A3F");
+Color bgC = toColor("caf0f8");
+Color textC = toColor("012A4A");
+Color textCDark = toColor("00111f");
 
 Image logoWidget(String imageName, double x, double y) {
   return Image.asset(
@@ -96,7 +97,7 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
       List<dynamic> phoneticsList = wordDefinition[0]['phonetics'];
 
       String phoneticTranscription =
-      phoneticsList.isNotEmpty ? phoneticsList[0]['text'] ?? '' : '';
+          phoneticsList.isNotEmpty ? phoneticsList[0]['text'] ?? '' : '';
 
       // Extract audio links
 
@@ -105,7 +106,6 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
           .where((audio) => audio.isNotEmpty)
           .toList();
 
-
       // Store the results
       if (kDebugMode) {
         print(phoneticTranscription);
@@ -113,11 +113,11 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
 
       wordDetails.add({
         'definition': await askGemini(
-            "help a dyslexic person understand the meaning of this word, the words should be vey simple, answer in 1 line: $wordDefinition") ??
+                "help a dyslexic person understand the meaning of this word, the words should be vey simple, answer in 1 line: $wordDefinition") ??
             "",
 
         'phonetic': await askGemini(
-            "help a dyslexic person pronounce this word, answer in one word: $word") ??
+                "help a dyslexic person pronounce this word, answer in one word: $word") ??
             "",
 
         'audio': audioLinks.isNotEmpty
@@ -164,12 +164,14 @@ Widget reusableTextField(String text, TextEditingController controller) {
     maxLines: null,
     decoration: InputDecoration(
       labelText: text,
-      labelStyle:
-      TextStyle(color: textC, fontWeight: FontWeight.bold, fontSize: 20),
+      labelStyle: TextStyle(
+          color: textC.withAlpha(200),
+          fontWeight: FontWeight.bold,
+          fontSize: 20),
       filled: false,
       floatingLabelBehavior: FloatingLabelBehavior.never,
     ),
     keyboardType:
-    TextInputType.multiline, // Change to multiline for non-password fields
+        TextInputType.multiline, // Change to multiline for non-password fields
   );
 }

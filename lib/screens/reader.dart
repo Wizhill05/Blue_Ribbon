@@ -33,7 +33,7 @@ class _ReaderState extends State<Reader> {
     words = widget.data.split(' ');
     _audio = "";
     _definition = "";
-    _transcription = "Click a Word For its Definition";
+    _transcription = "Click a Word For its Pronunciation";
     _word = "Click";
   }
 
@@ -57,7 +57,7 @@ class _ReaderState extends State<Reader> {
   Widget build(BuildContext context) {
     // Get the words to display based on the current index
     List<String> displayedWords =
-    words.skip(currentIndex).take(wordsPerPage).toList();
+        words.skip(currentIndex).take(wordsPerPage).toList();
 
     return Scaffold(
       backgroundColor: bgC,
@@ -85,7 +85,7 @@ class _ReaderState extends State<Reader> {
                     words: displayedWords,
                     onWordTap: (word) async {
                       List<Map<String, String>> wordDetails =
-                      await fetchWordDefinition(word);
+                          await fetchWordDefinition(word);
 
                       if (wordDetails.isNotEmpty) {
                         setState(() {
@@ -121,7 +121,7 @@ class _ReaderState extends State<Reader> {
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: SizedBox(
                                   width:
-                                  MediaQuery.of(context).size.width - 100,
+                                      MediaQuery.of(context).size.width - 100,
                                   child: Text(
                                     removeSpecialCharacters(_word),
                                     style: TextStyle(
@@ -134,7 +134,7 @@ class _ReaderState extends State<Reader> {
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                               child: SizedBox(
                                   width:
-                                  MediaQuery.of(context).size.width - 100,
+                                      MediaQuery.of(context).size.width - 100,
                                   child: Text(
                                     _transcription,
                                     style: GoogleFonts.notoSans(
@@ -147,7 +147,7 @@ class _ReaderState extends State<Reader> {
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                               child: SizedBox(
                                   width:
-                                  MediaQuery.of(context).size.width - 100,
+                                      MediaQuery.of(context).size.width - 100,
                                   child: Text(
                                     _definition,
                                     style: TextStyle(
@@ -207,7 +207,7 @@ class _ReaderState extends State<Reader> {
             alignment: const Alignment(1, 1),
             child: GestureDetector(
               onTap:
-              currentIndex + wordsPerPage < words.length ? nextPage : null,
+                  currentIndex + wordsPerPage < words.length ? nextPage : null,
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: toColor("333A3F"), width: 5),
@@ -284,9 +284,9 @@ class StoryContainer extends StatelessWidget {
 
   const StoryContainer(
       {super.key,
-        required this.words,
-        required this.onWordTap,
-        required this.textSize}); // Update constructor
+      required this.words,
+      required this.onWordTap,
+      required this.textSize}); // Update constructor
 
   @override
   Widget build(BuildContext context) {

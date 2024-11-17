@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:team_contrast_hackloop/screens/main_page.dart';
-import 'package:team_contrast_hackloop/secrets.dart';
+import 'package:blue_ribbon/screens/main_page.dart';
+import 'package:blue_ribbon/secrets.dart';
 
 Future<void> main() async {
   await Supabase.initialize(url: Secrets().url(), anonKey: Secrets().key());
@@ -36,12 +36,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Blue Ribbon',
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: GoogleFonts.varelaRound().fontFamily,
-        primarySwatch: Colors.red,
+        fontFamily: GoogleFonts.lexend().fontFamily,
+        primarySwatch: Colors.blue,
       ),
     );
   }
 }
+
 Future<String?> askGemini(String question) async {
   final gemini = Gemini.instance;
 
@@ -61,4 +62,3 @@ Future<String?> askGemini(String question) async {
     return 'An error occurred while processing your request.';
   }
 }
-

@@ -40,22 +40,6 @@ class _LibraryState extends State<Library> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: SizedBox(
-        width: 70.0, // Set your desired width
-        height: 70.0, // Set your desired height
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Ask()));
-          },
-          shape: const CircleBorder(),
-          backgroundColor: toColor("56C0A1"),
-          child: const Icon(
-            Icons.note,
-            size: 30, // Increase the icon size if needed
-          ),
-        ),
-      ),
       backgroundColor: bgC,
       body: Stack(
         children: [
@@ -67,7 +51,7 @@ class _LibraryState extends State<Library> {
                 child: const Align(
                     alignment: Alignment(-1, 1),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
                       child: Text(
                         "Books",
                         style: TextStyle(
