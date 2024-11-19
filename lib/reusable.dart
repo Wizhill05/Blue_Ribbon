@@ -48,14 +48,6 @@ Widget Book(BuildContext context, String link, String title, String data,
           color: textC, // Border color
           width: 5, // Border width
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 5,
-            spreadRadius: 2,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Row(
         children: [
