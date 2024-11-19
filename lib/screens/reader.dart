@@ -3,20 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:hive/hive.dart'; // Import Hive
 
 import '../reusable.dart';
 
-class Reader extends StatefulWidget {
+class ReaderPage extends StatefulWidget {
   final String title;
   final String data;
+  final int initialProgress; // Add initialProgress parameter
 
-  const Reader({super.key, required this.title, required this.data});
+  const ReaderPage({
+    super.key,
+    required this.title,
+    required this.data,
+    this.initialProgress = 0, // Default value
+  });
 
   @override
-  State<Reader> createState() => _ReaderState();
+  State<ReaderPage> createState() => _ReaderPageState();
 }
 
-class _ReaderState extends State<Reader> {
+class _ReaderPageState extends State<ReaderPage> {
   late List<String> words;
   int currentIndex = 0;
   double _sliderValue = 20;
@@ -26,23 +33,28 @@ class _ReaderState extends State<Reader> {
   String _audio = "";
   String _transcription = "";
   bool _isLoading = false;
+  late Box<int> _bookProgressBox; // Hive box for storing book progress
 
   @override
   void initState() {
     super.initState();
-    // Split the string into words
+    _bookProgressBox = Hive.box<int>('bookProgress'); // Initialize Hive box
     _sliderValue = 20;
     words = widget.data.split(' ');
     _audio = "";
     _definition = "";
     _transcription = "Click a Word For its Pronunciation";
     _word = "Click";
+
+    // Set currentIndex from initialProgress
+    currentIndex = widget.initialProgress;
   }
 
   void nextPage() {
     setState(() {
       if (currentIndex + wordsPerPage < words.length) {
         currentIndex += wordsPerPage;
+        _saveProgress(); // Save progress when user navigates
       }
     });
   }
@@ -51,8 +63,20 @@ class _ReaderState extends State<Reader> {
     setState(() {
       if (currentIndex - wordsPerPage >= 0) {
         currentIndex -= wordsPerPage;
+        _saveProgress(); // Save progress when user navigates
       }
     });
+  }
+
+  void _saveProgress() {
+    // Save the current index to Hive using the book title as the key
+    _bookProgressBox.put(widget.title, currentIndex);
+  }
+
+  @override
+  void dispose() {
+    _saveProgress(); // Save progress when the page is disposed
+    super.dispose();
   }
 
   @override
@@ -93,7 +117,7 @@ class _ReaderState extends State<Reader> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.sizeOf(context).height - 320,
+          height: MediaQuery.sizeOf(context).height - 120,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -111,7 +135,6 @@ class _ReaderState extends State<Reader> {
                           await fetchWordDefinition(word);
 
                       // Simulate a delay for loading (for demonstration purposes)
-
                       await Future.delayed(const Duration(seconds: 1));
 
                       setState(() {
@@ -121,12 +144,9 @@ class _ReaderState extends State<Reader> {
                       if (wordDetails.isNotEmpty) {
                         setState(() {
                           _word = word;
-
                           _definition = wordDetails[0]['definition']!;
-
                           _transcription =
                               wordDetails[0]['phonetic']!.toLowerCase();
-
                           _audio = wordDetails[0]['audio']!;
                         });
                       } else {
@@ -220,9 +240,26 @@ class _ReaderState extends State<Reader> {
                           )),
                     ),
                   )
-                ])
+                ]),
+                const SizedBox(
+                  height: 260,
+                )
               ],
             ),
+          ),
+        ),
+        Align(
+          alignment: Alignment(0, 1),
+          child: Container(
+            height: 240,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              toColor("53c2a1").withOpacity(0.0),
+              toColor("53c2a1")
+            ], stops: [
+              0,
+              0.5
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           ),
         ),
         Padding(
@@ -282,7 +319,7 @@ class _ReaderState extends State<Reader> {
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "${((currentIndex - 1) / 20).ceil() + 1}",
+                    "${((currentIndex) / wordsPerPage).ceil() + 1}",
                     style: const TextStyle(fontSize: 28),
                   )),
             ),
@@ -329,11 +366,12 @@ class StoryContainer extends StatelessWidget {
   final ValueChanged<String> onWordTap;
   final double textSize; // Add this line
 
-  const StoryContainer(
-      {super.key,
-      required this.words,
-      required this.onWordTap,
-      required this.textSize}); // Update constructor
+  const StoryContainer({
+    super.key,
+    required this.words,
+    required this.onWordTap,
+    required this.textSize,
+  }); // Update constructor
 
   @override
   Widget build(BuildContext context) {

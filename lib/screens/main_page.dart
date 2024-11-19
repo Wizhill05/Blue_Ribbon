@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blue_ribbon/screens/ask.dart';
+import 'package:blue_ribbon/screens/news.dart';
 import 'package:flutter/material.dart';
 import '../reusable.dart';
 import './library.dart';
@@ -26,7 +27,7 @@ class _MainpageState extends State<Mainpage> {
   }
 
   void _startColorAnimation() {
-    Timer.periodic(Duration(seconds: 3), (timer) {
+    Timer.periodic(const Duration(seconds: 3), (timer) {
       setState(() {
         // Swap colors for animation
 
@@ -67,7 +68,7 @@ class _MainpageState extends State<Mainpage> {
         child: Stack(
           children: [
             Align(
-              alignment: Alignment(0, -0.65),
+              alignment: const Alignment(0, -0.65),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
                 child: logoWidget(
@@ -104,7 +105,7 @@ class _MainpageState extends State<Mainpage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 0, 30),
+              padding: const EdgeInsets.fromLTRB(30, 0, 0, 30),
               child: Align(
                   alignment: const Alignment(-1, 1),
                   child: ElevatedButton(
@@ -130,7 +131,7 @@ class _MainpageState extends State<Mainpage> {
                           gradient: LinearGradient(colors: [
                             toColor("e4ff82"),
                             toColor("a3ff82"),
-                          ], stops: [
+                          ], stops: const [
                             0.7,
                             1
                           ]),
@@ -272,7 +273,8 @@ class _MainpageState extends State<Mainpage> {
 
   Route _NewsRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const Library(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const NewsApiPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation.drive(CurveTween(curve: Curves.ease)),

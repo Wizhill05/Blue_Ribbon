@@ -29,52 +29,83 @@ Image logoWidget(String imageName, double x, double y) {
   );
 }
 
-Widget Book(BuildContext context, String link, String title, String data) {
+Widget Book(BuildContext context, String link, String title, String data,
+    {int progress = 0}) {
   return GestureDetector(
     onTap: () {
-      Navigator.push(context, _ReaderRoute(title, data));
+      Navigator.push(
+        context,
+        _ReaderRoute(title, data, progress),
+      );
     },
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Column(
+    child: Container(
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20), // Increased padding
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0), // More transparent
+        borderRadius: BorderRadius.circular(15), // Rounded corners
+        border: Border.all(
+          color: textC, // Border color
+          width: 5, // Border width
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 5,
+            spreadRadius: 2,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(link), // Correct usage
-                fit: BoxFit.cover,
-              ),
-              border: Border.all(color: toColor("333A3F"), width: 5),
-              color: toColor("56C0A1"),
-              borderRadius: BorderRadius.circular(20),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10), // Rounded image corners
+            child: link.isNotEmpty
+                ? Image.network(
+                    link,
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    height: 100,
+                    width: 100,
+                    color: Colors.grey,
+                    child: const Center(child: Text('No Image')),
+                  ),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          Align(
-            alignment: const Alignment(-0.9, 0),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.w900),
-                ),
+          // Optional: Display progress indicator
+          if (progress > 0)
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Icon(
+                Icons.bookmark,
+                color: textC,
               ),
             ),
-          )
         ],
       ),
     ),
   );
 }
 
-Route _ReaderRoute(String title, String data) {
+Route _ReaderRoute(String title, String data, int progress) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        Reader(title: title, data: data),
+    pageBuilder: (context, animation, secondaryAnimation) => ReaderPage(
+      title: title,
+      data: data,
+      initialProgress: progress,
+    ),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation.drive(CurveTween(curve: Curves.ease)),

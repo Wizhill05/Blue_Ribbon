@@ -38,7 +38,7 @@ class _AskState extends State<Ask> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Reader(
+                  builder: (context) => ReaderPage(
                     title: "Summary",
                     data: summarizedText ??
                         "Error summarizing text.", // Handle null case
@@ -50,7 +50,7 @@ class _AskState extends State<Ask> {
                 borderRadius: BorderRadius.all(Radius.circular(1000))),
             backgroundColor: toColor("#000500"),
             child: Center(
-              child: Container(
+              child: SizedBox(
                 width: 300,
                 height: 72,
                 child: Stack(
@@ -90,7 +90,7 @@ class _AskState extends State<Ask> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                bgC,
+                toColor("e3ffe4"),
                 toColor("bfffc2"),
                 toColor("96ff9a"),
               ],

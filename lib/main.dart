@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:blue_ribbon/screens/main_page.dart';
 import 'package:blue_ribbon/secrets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:blue_ribbon/screens/library.dart'; // Adjust the import as necessary
 
 Future<void> main() async {
   await Supabase.initialize(url: Secrets().url(), anonKey: Secrets().key());
@@ -16,6 +18,12 @@ Future<void> main() async {
   ]);
 
   Gemini.init(apiKey: Secrets().geminiKey());
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive and open a box for storing book progress
+  await Hive.initFlutter();
+  await Hive.openBox<int>('bookProgress'); // Box name: 'bookProgress'
 
   runApp(const MyApp());
 }
