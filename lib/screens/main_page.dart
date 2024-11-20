@@ -16,13 +16,13 @@ class Mainpage extends StatefulWidget {
 class _MainpageState extends State<Mainpage> {
   Color _color1 = toColor("abe1ed");
   Color _color2 = toColor("79d4e8");
-
+  String logo = "assets/Logo/brSemiT.png";
   double _stop = 0.2;
 
   @override
   void initState() {
     super.initState();
-
+    String logo = "assets/Logo/brSemiT.png";
     _startColorAnimation();
   }
 
@@ -71,10 +71,19 @@ class _MainpageState extends State<Mainpage> {
               alignment: const Alignment(0, -0.65),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
-                child: logoWidget(
-                    "assets/Logo/brT.png",
-                    MediaQuery.sizeOf(context).width,
-                    MediaQuery.sizeOf(context).width),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (logo == "assets/Logo/brSemiT.png") {
+                        logo = "assets/Logo/brT.png";
+                      } else {
+                        logo = "assets/Logo/brSemiT.png";
+                      }
+                    });
+                  },
+                  child: logoWidget(logo, MediaQuery.sizeOf(context).width,
+                      MediaQuery.sizeOf(context).width),
+                ),
               ),
             ),
             SizedBox(
@@ -120,13 +129,10 @@ class _MainpageState extends State<Mainpage> {
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(color: toColor("333A3F"), width: 5),
-                            left:
-                                BorderSide(color: toColor("333A3F"), width: 5),
-                            right:
-                                BorderSide(color: toColor("333A3F"), width: 2),
-                            bottom:
-                                BorderSide(color: toColor("333A3F"), width: 5),
+                            top: BorderSide(color: textCDark, width: 5),
+                            left: BorderSide(color: textCDark, width: 5),
+                            right: BorderSide(color: textCDark, width: 2),
+                            bottom: BorderSide(color: textCDark, width: 5),
                           ),
                           gradient: LinearGradient(colors: [
                             toColor("e4ff82"),
@@ -165,11 +171,10 @@ class _MainpageState extends State<Mainpage> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border(
-                          top: BorderSide(color: toColor("333A3F"), width: 5),
-                          left: BorderSide(color: toColor("333A3F"), width: 3),
-                          right: BorderSide(color: toColor("333A3F"), width: 3),
-                          bottom:
-                              BorderSide(color: toColor("333A3F"), width: 5),
+                          top: BorderSide(color: textCDark, width: 5),
+                          left: BorderSide(color: textCDark, width: 3),
+                          right: BorderSide(color: textCDark, width: 3),
+                          bottom: BorderSide(color: textCDark, width: 5),
                         ),
                         gradient: LinearGradient(colors: [
                           toColor("a3ff82"),
@@ -212,13 +217,10 @@ class _MainpageState extends State<Mainpage> {
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(color: toColor("333A3F"), width: 5),
-                            left:
-                                BorderSide(color: toColor("333A3F"), width: 2),
-                            right:
-                                BorderSide(color: toColor("333A3F"), width: 5),
-                            bottom:
-                                BorderSide(color: toColor("333A3F"), width: 5),
+                            top: BorderSide(color: textCDark, width: 5),
+                            left: BorderSide(color: textCDark, width: 2),
+                            right: BorderSide(color: textCDark, width: 5),
+                            bottom: BorderSide(color: textCDark, width: 5),
                           ),
                           gradient: LinearGradient(colors: [
                             toColor("75f6a4"),
