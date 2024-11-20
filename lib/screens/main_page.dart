@@ -72,7 +72,7 @@ class _MainpageState extends State<Mainpage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
                 child: logoWidget(
-                    "assets/Logo/brSemiT.png",
+                    "assets/Logo/brT.png",
                     MediaQuery.sizeOf(context).width,
                     MediaQuery.sizeOf(context).width),
               ),

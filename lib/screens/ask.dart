@@ -48,7 +48,7 @@ class _AskState extends State<Ask> {
             },
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(1000))),
-            backgroundColor: toColor("#000500"),
+            backgroundColor: textCDark,
             child: Center(
               child: SizedBox(
                 width: 300,
@@ -117,19 +117,19 @@ class _AskState extends State<Ask> {
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.w900,
-                                color: toColor("#020f00")),
+                                color: textCDark),
                           ),
                         )),
                   )),
               Divider(
-                color: toColor("#020f00"),
+                color: textCDark,
                 thickness: 6,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: toColor("333A3F"), width: 5),
+                      border: Border.all(color: textCDark, width: 5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(

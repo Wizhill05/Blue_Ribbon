@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../elements/book.dart';
 import '../reusable.dart';
 import './ask.dart';
 import 'package:hive/hive.dart'; // Import Hive
@@ -74,13 +75,16 @@ class _LibraryState extends State<Library> {
             child: SizedBox(
               width: MediaQuery.sizeOf(context).width,
               height: 120,
-              child: const Align(
+              child: Align(
                 alignment: Alignment(-1, 1),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
                   child: Text(
                     "Books",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w900,
+                        color: textCDark),
                   ),
                 ),
               ),
@@ -89,7 +93,7 @@ class _LibraryState extends State<Library> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
             child: Divider(
-              color: textC,
+              color: textCDark,
               thickness: 6,
             ),
           ),
@@ -119,16 +123,10 @@ class _LibraryState extends State<Library> {
                               'Untitled'; // Default to 'Untitled' if null
                           final bookText = book['text'] ?? '';
 
-                          // Retrieve saved progress or default to 0
-                          final progress = _bookProgressBox.get(title) ?? 0;
-
                           return Book(
-                            context,
-                            link,
-                            title,
-                            bookText,
-                            progress:
-                                progress, // Pass progress to the Book widget
+                            link: link,
+                            title: title,
+                            data: bookText, // Pass progress to the Book widget
                           );
                         }).toList(),
                       ),

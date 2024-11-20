@@ -89,13 +89,16 @@ class _NewsApiPageState extends State<NewsApiPage> {
             child: SizedBox(
               width: MediaQuery.sizeOf(context).width,
               height: 120,
-              child: const Align(
+              child: Align(
                 alignment: Alignment(-1, 1),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
                   child: Text(
                     "News",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w900,
+                        color: textCDark),
                   ),
                 ),
               ),
@@ -104,7 +107,7 @@ class _NewsApiPageState extends State<NewsApiPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
             child: Divider(
-              color: textC,
+              color: textCDark,
               thickness: 6,
             ),
           ),
@@ -144,7 +147,6 @@ class _NewsApiPageState extends State<NewsApiPage> {
   }
 }
 
-// Assuming you have a reusable NewsItem widget similar to Book
 Widget NewsItem(
     BuildContext context, String imageUrl, String title, String url) {
   return GestureDetector(
@@ -158,10 +160,10 @@ Widget NewsItem(
       margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0),
-        borderRadius: BorderRadius.circular(15),
+        color: Colors.white.withOpacity(0.0),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: textC,
+          color: textCDark,
           width: 5,
         ),
       ),

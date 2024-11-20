@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:blue_ribbon/screens/reader.dart';
@@ -26,84 +27,6 @@ Image logoWidget(String imageName, double x, double y) {
     fit: BoxFit.fitWidth,
     width: x,
     height: y,
-  );
-}
-
-Widget Book(BuildContext context, String link, String title, String data,
-    {int progress = 0}) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        _ReaderRoute(title, data, progress),
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(20), // Increased padding
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0), // More transparent
-        borderRadius: BorderRadius.circular(15), // Rounded corners
-        border: Border.all(
-          color: textC, // Border color
-          width: 5, // Border width
-        ),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10), // Rounded image corners
-            child: link.isNotEmpty
-                ? Image.network(
-                    link,
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    height: 100,
-                    width: 100,
-                    color: Colors.grey,
-                    child: const Center(child: Text('No Image')),
-                  ),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          // Optional: Display progress indicator
-          if (progress > 0)
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Icon(
-                Icons.bookmark,
-                color: textC,
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
-}
-
-Route _ReaderRoute(String title, String data, int progress) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => ReaderPage(
-      title: title,
-      data: data,
-      initialProgress: progress,
-    ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(
-        opacity: animation.drive(CurveTween(curve: Curves.ease)),
-        child: child,
-      );
-    },
   );
 }
 
