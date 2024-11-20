@@ -9,11 +9,13 @@ import '../reusable.dart';
 class ReaderPage extends StatefulWidget {
   final String title;
   final String data;
+  final int initialProgress;
 
   const ReaderPage({
     super.key,
     required this.title,
     required this.data,
+    this.initialProgress = 0,
   });
 
   @override
@@ -45,7 +47,7 @@ class _ReaderPageState extends State<ReaderPage> {
     _word = "Click";
 
     // Set currentIndex from initialProgress
-    currentIndex = _bookProgressBox.get(widget.title) ?? 0;
+    currentIndex = widget.initialProgress;
   }
 
   void nextPage() {

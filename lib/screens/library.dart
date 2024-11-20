@@ -7,6 +7,8 @@ import '../elements/book.dart';
 import '../reusable.dart';
 import './ask.dart';
 import 'package:hive/hive.dart'; // Import Hive
+import 'package:hive_flutter/hive_flutter.dart';
+import '../route_observer.dart'; // Import the RouteObserver
 
 class Library extends StatefulWidget {
   const Library({super.key});
@@ -15,7 +17,7 @@ class Library extends StatefulWidget {
   State<Library> createState() => _LibraryState();
 }
 
-class _LibraryState extends State<Library> {
+class _LibraryState extends State<Library> with RouteAware {
   List<Map<String, dynamic>> books = []; // Variable to store fetched data
   bool isLoading = true; // Variable to track loading state
   late Box<int> _bookProgressBox; // Hive box for storing book progress
@@ -27,7 +29,30 @@ class _LibraryState extends State<Library> {
     fetchBooks(); // Fetch books when the widget is initialized
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(
+        this, ModalRoute.of(context)!); // Subscribe to RouteObserver
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this); // Unsubscribe from RouteObserver
+    super.dispose();
+  }
+
+  // Called when the Library page is visible again after a pop
+  @override
+  void didPopNext() {
+    fetchBooks(); // Refresh the books list
+  }
+
   Future<void> fetchBooks() async {
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       final supabase = Supabase.instance.client;
 
@@ -123,10 +148,16 @@ class _LibraryState extends State<Library> {
                               'Untitled'; // Default to 'Untitled' if null
                           final bookText = book['text'] ?? '';
 
+                          // Retrieve saved progress or default to 0
+                          final progress = _bookProgressBox.get(title) ?? 0;
+
                           return Book(
-                            link: link,
-                            title: title,
-                            data: bookText, // Pass progress to the Book widget
+                            context,
+                            link,
+                            title,
+                            bookText,
+                            progress:
+                                progress, // Pass progress to the Book widget
                           );
                         }).toList(),
                       ),
