@@ -3,6 +3,19 @@
 
 This Flutter application is designed to assist individuals with dyslexia in reading and comprehending text more effectively. The app uses advanced APIs and a user-friendly interface to simplify text presentation, making reading a smoother and more engaging experience.
 
+<html>
+   <div align="center">
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/home.png?raw=true" style="width: 300px">  
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/library.png?raw=true" style="width: 300px">  
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/news.png?raw=true" style="width: 300px">  
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/ask.png?raw=true" style="width: 300px">  
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/reader.png?raw=true" style="width: 300px">  
+   <br>
+   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/context-helper.png?raw=true" style="width: 600px">  
+   </div>
+</html>
+
+
 ## Features
 
 ### 1. **Library Section**
