@@ -9,6 +9,7 @@ This Flutter application is designed to assist individuals with dyslexia in read
 - Connects to our **Supabase database** to fetch short stories.
 - Organizes and displays stories in a dyslexia-friendly format.
 - Also has support to change text size and resume from last page which was read
+- Has a section where you can quickly check meaning and pronunciation by tapping on tokenized word
 
 ### 2. **News Section**
 - Fetches the latest news articles.
@@ -20,10 +21,10 @@ This Flutter application is designed to assist individuals with dyslexia in read
 
 ## Installation and Setup
 
-### Prerequisites
+### Prerequisites to Build or Run the project from source code
 - Flutter SDK installed.
 - A Supabase account with the required database setup.
-- Access to Gemini APIs.
+- Access to Gemini APIs, NewsAPI keys.
 
 ### Steps to set up project locally
 1. Clone the repository
