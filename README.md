@@ -3,6 +3,27 @@
 
 This Flutter application is designed to assist individuals with dyslexia in reading and comprehending text more effectively. The app uses advanced APIs and a user-friendly interface to simplify text presentation, making reading a smoother and more engaging experience.
 
+<details>
+  <summary><h2>Gallery</h2></summary>
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/1.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/3.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/4.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/5.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/6.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/7.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/8.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/9.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/10.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/11.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/12.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/13.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/14.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/15.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/16.jpg?raw=true" alt="just flexing the ui lol" width="300">
+  <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/2.jpg?raw=true" alt="just flexing the ui lol" width="300">
+   
+</details>
+
 ## Features
 
 ### 1. **Library Section**
