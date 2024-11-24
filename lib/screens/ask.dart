@@ -29,7 +29,7 @@ class _AskState extends State<Ask> {
             onPressed: () async {
               // Get the summarized text from Gemini
               String? summarizedText = await askGemini(
-                  "Summerize this in very simple Language, dont change the actual text too much just simplify to complex words !Dont add any new line charecters, answer in a paragraaph: ${_text.text}");
+                  "Summarize this in very simple Language, don't change the actual text too much just simplify to complex words !Dont add any new line charecters, answer in a paragraaph: ${_text.text}");
               if (kDebugMode) {
                 print(summarizedText);
               }
@@ -46,8 +46,9 @@ class _AskState extends State<Ask> {
                 ),
               );
             },
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(1000))),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(1000),
+            ),
             backgroundColor: textCDark,
             child: Center(
               child: SizedBox(
@@ -128,14 +129,15 @@ class _AskState extends State<Ask> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: textCDark, width: 5),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-                      child: reusableTextField("Enter Text", _text),
-                    )),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: textCDark, width: 5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                    child: reusableTextField("Enter Text", _text),
+                  ),
+                ),
               ),
             ],
           ),

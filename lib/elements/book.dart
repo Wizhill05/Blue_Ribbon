@@ -3,7 +3,7 @@ import 'package:blue_ribbon/screens/reader.dart';
 import 'package:flutter/material.dart';
 
 Widget Book(BuildContext context, String imageUrl, String title, String data,
-    {int progress = 0}) {
+    int progress) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
@@ -32,6 +32,23 @@ Widget Book(BuildContext context, String imageUrl, String title, String data,
                     height: 100,
                     width: 100,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        height: 100,
+                        width: 100,
+                        color: Colors.transparent,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: textCDark,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : 1,
+                          ),
+                        ),
+                      );
+                    },
                   )
                 : Container(
                     height: 100,

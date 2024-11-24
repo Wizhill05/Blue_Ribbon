@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:hive/hive.dart';
 import '../reusable.dart';
@@ -40,7 +39,7 @@ class _ReaderPageState extends State<ReaderPage> {
     super.initState();
     _bookProgressBox = Hive.box<int>('bookProgress'); // Initialize Hive box
     _sliderValue = 20;
-    words = widget.data.split(' ');
+    words = widget.data.replaceAll("\n", " ").split(' ').where((word) => word.isNotEmpty).toList();
     _audio = "";
     _definition = "";
     _transcription = "Click a Word For its Pronunciation";
@@ -249,7 +248,7 @@ class _ReaderPageState extends State<ReaderPage> {
           ),
         ),
         Align(
-          alignment: Alignment(0, 1),
+          alignment: const Alignment(0, 1),
           child: Container(
             height: 240,
             decoration: BoxDecoration(
@@ -274,7 +273,7 @@ class _ReaderPageState extends State<ReaderPage> {
                     color: bgC.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(1000)),
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Icon(Icons.arrow_back_rounded,
                       size: 40, color: textCDark),
                 ),
@@ -320,8 +319,9 @@ class _ReaderPageState extends State<ReaderPage> {
                           fontSize: 24,
                           fontWeight: FontWeight.w900),
                     ),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: textCDark, width: 4),
+                        borderRadius: const BorderRadius.all(Radius.circular(20))),
                     backgroundColor: toColor("bef3ed").withOpacity(0.9),
                     content: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -336,10 +336,11 @@ class _ReaderPageState extends State<ReaderPage> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(width: 3, color: textC),
+                            borderSide: BorderSide(width: 4, color: textC),
                           ),
                         ),
                         cursorColor: textC,
+                        cursorWidth: 4,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -355,27 +356,42 @@ class _ReaderPageState extends State<ReaderPage> {
                             int intVal;
                             try {
                               intVal = int.parse(val);
+
+                              // Calculate the maximum page number
+                              int totalPages = (words.length / wordsPerPage).ceil();
+
+                              // Adjust intVal based on the conditions
+                              if (intVal < 1) {
+                                intVal = 1; // Default to page 1
+                              } else if (intVal > totalPages) {
+                                intVal = totalPages; // Set to maximum page
+                              }
+
+                              // Calculate the current index based on the validated page number
                               intVal = (intVal - 1) * wordsPerPage;
+
                               setState(() {
-                                if ((intVal < words.length) || (intVal >= 0)) {
-                                  currentIndex = intVal;
-                                  _saveProgress(); // Save progress when user navigates
-                                }
+                                currentIndex = intVal; // Set the current index to the new value
+                                _saveProgress(); // Save progress when user navigates
                               });
                             } catch (e) {
-                              print(e.toString());
+                              if (kDebugMode) {
+                                print(e.toString());
+                              }
                             }
                             _textEditingController.text = "";
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
+                            elevation: const WidgetStatePropertyAll(0),
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                side: BorderSide(color: textCDark, width: 4),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                      const BorderRadius.all(Radius.circular(10))),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.all(textCDark),
+                                WidgetStateProperty.all(textCDark),
                           ),
                           child: Container(
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -383,7 +399,7 @@ class _ReaderPageState extends State<ReaderPage> {
                               child: Text(
                                 "Go to Page",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: bgC, fontSize: 20),
+                                style: TextStyle(color: toColor("b2e6e0"), fontSize: 20, fontWeight: FontWeight.bold),
                               )))
                     ],
                   );

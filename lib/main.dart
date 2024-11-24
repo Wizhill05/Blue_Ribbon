@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Mainpage(),
+      home: const MainPage(),
       title: 'Blue Ribbon',
       theme: ThemeData(
         useMaterial3: true,

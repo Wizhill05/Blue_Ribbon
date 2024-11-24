@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import '../reusable.dart';
 import './library.dart';
 
-class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<Mainpage> createState() => _MainpageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MainpageState extends State<Mainpage> {
+class _MainPageState extends State<MainPage> {
   Color _color1 = toColor("abe1ed");
   Color _color2 = toColor("79d4e8");
   String logo = "assets/Logo/brSemiT.png";
@@ -22,7 +22,6 @@ class _MainpageState extends State<Mainpage> {
   @override
   void initState() {
     super.initState();
-    String logo = "assets/Logo/brSemiT.png";
     _startColorAnimation();
   }
 
@@ -119,7 +118,7 @@ class _MainpageState extends State<Mainpage> {
                   alignment: const Alignment(-1, 1),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, _NewsRoute());
+                      Navigator.push(context, _newsRoute());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -161,7 +160,7 @@ class _MainpageState extends State<Mainpage> {
                   alignment: const Alignment(0, 1),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, _AskRoute());
+                      Navigator.push(context, _askRoute());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -207,7 +206,7 @@ class _MainpageState extends State<Mainpage> {
                   alignment: const Alignment(1, 1),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, _LibraryRoute());
+                      Navigator.push(context, _libraryRoute());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -249,7 +248,7 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 
-  Route _LibraryRoute() {
+  Route _libraryRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const Library(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -261,7 +260,7 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 
-  Route _AskRoute() {
+  Route _askRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const Ask(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -273,7 +272,7 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 
-  Route _NewsRoute() {
+  Route _newsRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const NewsApiPage(),

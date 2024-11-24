@@ -32,21 +32,27 @@ class _NewsApiPageState extends State<NewsApiPage> {
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         final List<dynamic> articlesData = data['articles'];
 
         setState(() {
           articles = articlesData
+              .where((article) =>
+          article['title'] != '[Removed]' &&
+              article['title'] != null &&
+              article['description'] != '[Removed]' &&
+              article['content'] != '[Removed]'
+          )
               .map((article) => {
-                    'title': article['title'] ?? 'No Title',
-                    'content': article['content'] ?? '',
-                    'urlToImage': article['urlToImage'] ??
-                        'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png', // Placeholder image
-                  })
+            'title': article['title'] ?? 'No Title',
+            'content': article['content'] ?? article['description'] ?? article['title'],
+            'urlToImage': article['urlToImage'] ??
+                'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+          })
               .toList();
-          isLoading = false; // Set loading to false after fetching data
+          // print(articlesData);
+          isLoading = false;
         });
       } else {
         throw Exception('Failed to load news');
@@ -90,9 +96,9 @@ class _NewsApiPageState extends State<NewsApiPage> {
               width: MediaQuery.sizeOf(context).width,
               height: 120,
               child: Align(
-                alignment: Alignment(-1, 1),
+                alignment: const Alignment(-1, 1),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
                   child: Text(
                     "News",
                     style: TextStyle(
@@ -105,7 +111,7 @@ class _NewsApiPageState extends State<NewsApiPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
             child: Divider(
               color: textCDark,
               thickness: 6,
@@ -130,7 +136,7 @@ class _NewsApiPageState extends State<NewsApiPage> {
                       physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: articles.map((article) {
-                          return NewsItem(
+                          return newsItem(
                             context,
                             article['urlToImage'],
                             article['title'],
@@ -147,13 +153,13 @@ class _NewsApiPageState extends State<NewsApiPage> {
   }
 }
 
-Widget NewsItem(
+Widget newsItem(
     BuildContext context, String imageUrl, String title, String url) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
-        _ReaderRoute(title, url),
+        _readerRoute(title, url),
       );
     },
     child: Container(
@@ -173,17 +179,43 @@ Widget NewsItem(
             borderRadius: BorderRadius.circular(10),
             child: imageUrl.isNotEmpty
                 ? Image.network(
-                    imageUrl,
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    height: 100,
-                    width: 100,
-                    color: Colors.grey,
-                    child: const Center(child: Text('No Image')),
+              imageUrl,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                if (kDebugMode) {
+                  print('Error loading image: $error');
+                }
+                return ClipRRect (
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network("https://www.nme.com/wp-content/uploads/2021/07/RickAstley2021-696x442.jpg", height: 100, width: 100, fit: BoxFit.cover,),
+                );
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  height: 100,
+                  width: 100,
+                  color: Colors.transparent,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: textCDark,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                          : 1,
+                    ),
                   ),
+                );
+              },
+            )
+                : Container(
+              height: 100,
+              width: 100,
+              color: Colors.grey,
+              child: const Center(child: Text('No Image')),
+            ),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -200,7 +232,7 @@ Widget NewsItem(
   );
 }
 
-Route _ReaderRoute(String title, String data) {
+Route _readerRoute(String title, String data) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
         ReaderPage(title: title, data: data),

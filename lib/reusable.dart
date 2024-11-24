@@ -114,7 +114,7 @@ Widget reusableTextField(String text, TextEditingController controller) {
   return TextField(
     controller: controller,
     cursorColor: toColor("#020800"),
-    cursorWidth: 2,
+    cursorWidth: 4,
     cursorHeight: 20,
     style: TextStyle(
         color: toColor("#020800"), fontSize: 24, fontWeight: FontWeight.w900),
@@ -129,11 +129,11 @@ Widget reusableTextField(String text, TextEditingController controller) {
       floatingLabelBehavior: FloatingLabelBehavior.never,
       enabledBorder: UnderlineInputBorder(
         borderSide:
-            BorderSide(color: toColor("#020f00"), width: 2), // Dark green color
+            BorderSide(color: toColor("#020f00"), width: 4), // Dark green color
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide:
-            BorderSide(color: toColor("#072000"), width: 2), // Dark green color
+            BorderSide(color: toColor("#072000"), width: 5), // Dark green color
       ),
     ),
     keyboardType:
