@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:blue_ribbon/screens/reader.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:read_pdf_text/read_pdf_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../reusable.dart';
 import 'package:hive/hive.dart'; // Import Hive
 import 'package:hive_flutter/hive_flutter.dart';
-import '../route_observer.dart';// Import the RouteObserver
+import '../route_observer.dart'; // Import the RouteObserver
 import '../elements/book.dart';
 
 class Library extends StatefulWidget {
@@ -77,6 +83,14 @@ class _LibraryState extends State<Library> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          pdfPicker(context);
+        },
+        backgroundColor: textCDark,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.picture_as_pdf_rounded),
+      ),
       backgroundColor: bgC,
       body: Stack(
         children: [
@@ -156,12 +170,7 @@ class _LibraryState extends State<Library> with RouteAware {
                             final progress = _bookProgressBox.get(title) ?? 0;
 
                             return Book(
-                              context,
-                              link,
-                              title,
-                              bookText,
-                              progress
-                            );
+                                context, link, title, bookText, progress);
                           },
                         ).toList(),
                       ),
@@ -172,4 +181,48 @@ class _LibraryState extends State<Library> with RouteAware {
       ),
     );
   }
+}
+
+void pdfPicker(BuildContext context) async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  if (result != null && result.files.isNotEmpty) {
+    File file = File(result.files.single.path!);
+    final tf = await getPDFText(file.path);
+    Navigator.push(
+      context,
+      _readerRoute("PDF", tf, 0),
+    );
+    // return file;
+  } else {
+    // Return null if no file was picked
+  }
+}
+
+Future<String> getPDFText(String path) async {
+  String text = "";
+  try {
+    text = await ReadPdfText.getPDFtext(path);
+  } on PlatformException {
+    if (kDebugMode) {
+      print('Failed to get PDF text.');
+    }
+  }
+  return text;
+}
+
+Route _readerRoute(String title, String data, int progress) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => ReaderPage(
+      title: title,
+      data: data,
+      initialProgress: progress,
+    ),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation.drive(CurveTween(curve: Curves.ease)),
+        child: child,
+      );
+    },
+  );
 }
