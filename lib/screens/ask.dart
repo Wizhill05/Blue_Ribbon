@@ -28,8 +28,7 @@ class _AskState extends State<Ask> {
             isExtended: true,
             onPressed: () async {
               // Get the summarized text from Gemini
-              String? summarizedText = await askGemini(
-                  "Summarize this in very simple Language, don't change the actual text too much just simplify to complex words !Dont add any new line charecters, answer in a paragraaph: ${_text.text}");
+              String? summarizedText = await askServer(_text.text, "https://restricted-dam-infinite-nervous.trycloudflare.com");
               if (kDebugMode) {
                 print(summarizedText);
               }
