@@ -1,5 +1,8 @@
+import 'package:blue_ribbon/screens/secret-page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import '../secrets.dart';
 import './reader.dart';
 import '../main.dart';
 import '../reusable.dart';
@@ -28,22 +31,30 @@ class _AskState extends State<Ask> {
             isExtended: true,
             onPressed: () async {
               // Get the summarized text from Gemini
-              String? summarizedText = await askServer(_text.text, "https://restricted-dam-infinite-nervous.trycloudflare.com");
-              if (kDebugMode) {
-                print(summarizedText);
-              }
+              String? summarizedText;
 
-              // Navigate to Reader page with the summarized text
+              summarizedText = await askServer(_text.text).then((_) {
+                return _;
+              }, onError: (_) async {
+                String? temp = await askGemini(_text.text);
+                return temp;
+              });
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ReaderPage(
                     title: "Summary",
                     data: summarizedText ??
-                        "Error summarizing text.", // Handle null case
+                        "Error in Request", // Handle null case
                   ),
                 ),
               );
+
+              if (kDebugMode) {
+                print(summarizedText);
+              }
+
+              // Navigate to Reader page with the summarized text
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(1000),
@@ -103,24 +114,30 @@ class _AskState extends State<Ask> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Align(
-                  alignment: const Alignment(0, -1),
-                  child: SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: 120,
-                    child: Align(
-                        alignment: const Alignment(-1, 1),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                          child: Text(
-                            "Ask",
-                            style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900,
-                                color: textCDark),
-                          ),
-                        )),
-                  )),
+              GestureDetector(
+                onDoubleTapCancel: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const link()));
+                },
+                child: Align(
+                    alignment: const Alignment(0, -1),
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 120,
+                      child: Align(
+                          alignment: const Alignment(-1, 1),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                            child: Text(
+                              "Ask",
+                              style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w900,
+                                  color: textCDark),
+                            ),
+                          )),
+                    )),
+              ),
               Divider(
                 color: textCDark,
                 thickness: 6,
@@ -138,6 +155,9 @@ class _AskState extends State<Ask> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 200,
+              )
             ],
           ),
         ),

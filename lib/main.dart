@@ -27,6 +27,7 @@ Future<void> main() async {
 
   // Initialize Hive and open a box for storing book progress
   await Hive.initFlutter();
+  await Hive.openBox<String>('link');
   await Hive.openBox<int>('bookProgress'); // Box name: 'bookProgress'
 
   runApp(const MyApp());
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
 
 Future<String?> askGemini(String question) async {
   final gemini = Gemini.instance;
+  question = "Summarize this text in simple to read english:" + question;
 
   try {
     final responseStream = gemini.streamGenerateContent(question);
@@ -76,9 +78,11 @@ Future<String?> askGemini(String question) async {
   }
 }
 
-Future<String> askServer(String question, String server) async {
+Future<String> askServer(String question) async {
+  Box<String> _linkBox = Hive.box<String>('link');
   final response = await http.post(
-    Uri.parse('$server/v1/chat/completions'),
+    Uri.parse(
+        '${_linkBox.get("link") ?? Secrets().serverLink()}/v1/chat/completions'),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -87,8 +91,7 @@ Future<String> askServer(String question, String server) async {
       'messages': [
         {
           'role': 'system',
-          'content':
-              'i am using you as a llm to convert words down in smaller syllables so that its easier for a dyslexic guy to pronounce, the response is gonna be printed as it is so answer only in 1 single word if there is nothing after hyphen just return a hyphen . the word to be broken down and keep language as english'
+          'content': 'Summarize this text in simple to read english:'
         },
         {'role': 'user', 'content': question}
       ],
@@ -97,5 +100,6 @@ Future<String> askServer(String question, String server) async {
       'stream': false
     }),
   );
-  return jsonDecode(response.body)['choices'][0]['message']['content'].toString();
+  return jsonDecode(response.body)['choices'][0]['message']['content']
+      .toString();
 }
