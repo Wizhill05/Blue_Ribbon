@@ -1,31 +1,41 @@
-name: blue_ribbon
-description: "reading for everyone"
-publish_to: "none"
-version: 1.0.0+1
+name: maid_llm
+description: "maid_llm is a dart implementation of llama.cpp used by the mobile artificial intelligence distribution (maid)"
+version: 1.0.1
+homepage: "https://github.com/Mobile-Artificial-Intelligence/maid_llm"
 
 environment:
-  sdk: ^3.5.4
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
-  audioplayers: ^6.1.0
+  crypto: ^3.0.3
+  ffi: ^2.1.2
   flutter:
     sdk: flutter
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  flutter_gemini: ^2.0.5
-  google_fonts: ^6.2.0
-  supabase_flutter: ^2.8.0
-  lottie: ^3.1.3
-  http: ^1.1.0
+  plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
+  ffigen: ^11.0.0
   flutter_test:
     sdk: flutter
+  flutter_lints: ^3.0.0
 
-  flutter_lints: ^4.0.0
+ffigen:
+  name: "maid_llm"
+  description: "llama.cpp binding"
+  output: "lib/src/bindings.dart"
+  ignore-source-errors: true
+  headers:
+    entry-points:
+      - "src/maid_llm.h"
+      - "src/llama_cpp/llama.h"
+  compiler-opts:
+    - "-I/usr/lib/clang/17/include"
 
 flutter:
-  assets:
-    - assets/Logo/
-    - assets/
-  uses-material-design: true
+  plugin:
+    platforms:
+      android:
+        ffiPlugin: true
+      windows:
+        ffiPlugin: true
