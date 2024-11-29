@@ -21,7 +21,7 @@ This Flutter application is designed to assist individuals with dyslexia in read
   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/15.jpg?raw=true" alt="just flexing the ui lol" width="300">
   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/16.jpg?raw=true" alt="just flexing the ui lol" width="300">
   <img src="https://github.com/Wizhill05/Blue_Ribbon/blob/readme-images/readme-images/2.jpg?raw=true" alt="just flexing the ui lol" width="300">
-
+   
 </details>
 
 ## Features
@@ -39,10 +39,6 @@ This Flutter application is designed to assist individuals with dyslexia in read
 ### 3. **Summarization and Tokenized Display**
 - Utilizes **Gemini APIs** to summarize lengthy content.
 - Presents the text in a **tokenized format**, enhancing readability for users with dyslexia.
-
-### 4. **OnDevice AI**
-- Uses llama.cpp to run ai models locally for privacy which optional.
-- maid_llm is a dart implementation of llama.cpp, hats off to Dane Madsen for making this plugin
 
 ## Installation and Setup
 
@@ -93,6 +89,6 @@ This Flutter application is designed to assist individuals with dyslexia in read
       Secrets._internal();
     }
 
-5. Run the app
-   ```bash
-   flutter run
+  5. Run the app
+     ```bash
+     flutter run

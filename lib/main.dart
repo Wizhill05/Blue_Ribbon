@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:blue_ribbon/screens/main_page.dart';
 import 'package:blue_ribbon/secrets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:blue_ribbon/screens/library.dart';
 import 'route_observer.dart'; // Import the RouteObserver
 import 'package:http/http.dart' as http;
 

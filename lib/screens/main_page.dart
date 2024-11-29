@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:blue_ribbon/screens/ask.dart';
 import 'package:blue_ribbon/screens/news.dart';
-import 'package:blue_ribbon/screens/secret-page.dart';
 import 'package:flutter/material.dart';
 import '../reusable.dart';
 import './library.dart';

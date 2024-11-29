@@ -1,9 +1,6 @@
-import 'package:blue_ribbon/screens/maid_llm.dart';
 import 'package:blue_ribbon/screens/secret-page.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:maid_llm/maid_llm.dart';
 import './reader.dart';
 import '../main.dart';
 import '../reusable.dart';
@@ -17,63 +14,6 @@ class Ask extends StatefulWidget {
 
 class _AskState extends State<Ask> {
   final TextEditingController _text = TextEditingController(text: "");
-  bool _incognitoMode = false;
-
-  final List<ChatMessage> _messages = [];
-  String? _model;
-
-  void _loadModel() async {
-    final result = await FilePicker.platform.pickFiles(
-        dialogTitle: "Load Model File",
-        type: FileType.any,
-        allowMultiple: false,
-        allowCompression: false
-    );
-
-    if (result != null && result.files.isNotEmpty) {
-      setState(() {
-        _model = result.files.single.path!;
-      });
-    }
-  }
-
-  void _onSubmitted(String value) async {
-    if (_model == null) {
-      return;
-    }
-
-    setState(() {
-      // _messages.add(ChatMessage(role: 'system', content: "Summarize this text in simple to read english:"));
-      _messages.add(ChatMessage(role: 'user', content: value));
-      _text.clear();
-    });
-
-    GptParams gptParams = GptParams(_model!);
-
-    Stream<String> stream = MaidLLM(gptParams).prompt(_messages, "");
-
-    setState(() {
-      _messages.add(ChatMessage(role: 'assistant', content: ""));
-    });
-
-    stream.listen((message) {
-      setState(() {
-        final newContent = _messages.last.content + message;
-        final newLastMessage = ChatMessage(role: 'assistant', content: newContent);
-        _messages[_messages.length - 1] = newLastMessage;
-      });
-    });
-    print("EXITED***************************************************");
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ReaderPage(
-            title: "Summary",
-            data: _messages[_messages.length].content
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,32 +29,28 @@ class _AskState extends State<Ask> {
             isExtended: true,
             onPressed: () async {
               // Get the summarized text from Gemini
-              if (!_incognitoMode) {
-                String? summarizedText;
 
-                summarizedText = await askServer(_text.text).then((_) {
-                  return _;
-                }, onError: (_) async {
-                  String? temp = await askGemini(_text.text);
-                  return temp;
-                });
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReaderPage(
-                      title: "Summary",
-                      data: summarizedText ??
-                          "Error in Request", // Handle null case
-                    ),
+              String? summarizedText;
+
+              summarizedText = await askServer(_text.text).then((_) {
+                return _;
+              }, onError: (_) async {
+                String? temp = await askGemini(_text.text);
+                return temp;
+              });
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ReaderPage(
+                    title: "Summary",
+                    data: summarizedText ??
+                        "Error in Request", // Handle null case
                   ),
-                );
+                ),
+              );
 
-                if (kDebugMode) {
-                  print(summarizedText);
-                }
-              } else {
-                _loadModel();
-                _onSubmitted(_text.text);
+              if (kDebugMode) {
+                print(summarizedText);
               }
 
               // Navigate to Reader page with the summarized text
@@ -218,36 +154,6 @@ class _AskState extends State<Ask> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MaidLlmApp()
-                      ),
-                    );},
-                    child: Text(
-                      "Incognito Mode",
-                      style: TextStyle(
-                          color: textCDark, fontWeight: FontWeight.bold, fontSize: 24),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: Checkbox(
-                      activeColor: textCDark,
-                      value: _incognitoMode,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _incognitoMode = newValue!;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 200,
               ),
@@ -258,4 +164,3 @@ class _AskState extends State<Ask> {
     );
   }
 }
-
