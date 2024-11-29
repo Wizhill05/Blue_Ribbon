@@ -7,13 +7,14 @@ class link extends StatefulWidget {
   const link({super.key});
 
   @override
-  State<link> createState() => _linkState();
+  State<link> createState() => _LinkState();
 }
 
-class _linkState extends State<link> {
-  TextEditingController _link = TextEditingController();
+class _LinkState extends State<link> {
+  final TextEditingController _link = TextEditingController();
   late Box<String> _linkBox;
   late String linkAdd;
+
   @override
   void initState() {
     super.initState();

@@ -10,10 +10,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:blue_ribbon/screens/main_page.dart';
 import 'package:blue_ribbon/secrets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'route_observer.dart'; // Import the RouteObserver
-import 'package:http/http.dart' as http;
 import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
 import 'package:flutter_sharing_intent/model/sharing_file.dart';
+import 'package:http/http.dart' as http;
+import 'route_observer.dart'; // Import the RouteObserver
 
 Future<void> main() async {
   WidgetsFlutterBinding
@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
 
 Future<String?> askGemini(String question) async {
   final gemini = Gemini.instance;
-  question = "Summarize this text in simple to read english:" + question;
+  question = "Summarize this text in simple to read english: $question";
 
   try {
     final responseStream = gemini.streamGenerateContent(question);

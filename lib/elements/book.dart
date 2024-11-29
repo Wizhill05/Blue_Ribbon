@@ -8,7 +8,7 @@ Widget Book(BuildContext context, String imageUrl, String title, String data,
     onTap: () {
       Navigator.push(
         context,
-        _ReaderRoute(title, data, progress),
+        _readerRoute(title, data, progress),
       ).then((_) {});
     },
     child: Container(
@@ -81,7 +81,7 @@ Widget Book(BuildContext context, String imageUrl, String title, String data,
   );
 }
 
-Route _ReaderRoute(String title, String data, int progress) {
+Route _readerRoute(String title, String data, int progress) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => ReaderPage(
       title: title,

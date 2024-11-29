@@ -40,6 +40,9 @@ This Flutter application is designed to assist individuals with dyslexia in read
 - Utilizes **Gemini APIs** to summarize lengthy content.
 - Presents the text in a **tokenized format**, enhancing readability for users with dyslexia.
 
+### 4. **Read from anywhere**
+- Just select the text you are finding difficult to read and share it to app, you'll get your reader.
+
 ## Installation and Setup
 
 ### Prerequisites to Build or Run the project from source code

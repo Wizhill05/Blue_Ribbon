@@ -39,17 +39,18 @@ class _NewsApiPageState extends State<NewsApiPage> {
         setState(() {
           articles = articlesData
               .where((article) =>
-          article['title'] != '[Removed]' &&
-              article['title'] != null &&
-              article['description'] != '[Removed]' &&
-              article['content'] != '[Removed]'
-          )
+                  article['title'] != '[Removed]' &&
+                  article['title'] != null &&
+                  article['description'] != '[Removed]' &&
+                  article['content'] != '[Removed]')
               .map((article) => {
-            'title': article['title'] ?? 'No Title',
-            'content': article['content'] ?? article['description'] ?? article['title'],
-            'urlToImage': article['urlToImage'] ??
-                'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
-          })
+                    'title': article['title'] ?? 'No Title',
+                    'content': article['content'] ??
+                        article['description'] ??
+                        article['title'],
+                    'urlToImage': article['urlToImage'] ??
+                        'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+                  })
               .toList();
           // print(articlesData);
           isLoading = false;
@@ -179,43 +180,48 @@ Widget newsItem(
             borderRadius: BorderRadius.circular(10),
             child: imageUrl.isNotEmpty
                 ? Image.network(
-              imageUrl,
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                if (kDebugMode) {
-                  print('Error loading image: $error');
-                }
-                return ClipRRect (
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network("https://www.nme.com/wp-content/uploads/2021/07/RickAstley2021-696x442.jpg", height: 100, width: 100, fit: BoxFit.cover,),
-                );
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.transparent,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: textCDark,
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                          : 1,
-                    ),
-                  ),
-                );
-              },
-            )
+                    imageUrl,
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      if (kDebugMode) {
+                        print('Error loading image: $error');
+                      }
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          "https://www.nme.com/wp-content/uploads/2021/07/RickAstley2021-696x442.jpg",
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        height: 100,
+                        width: 100,
+                        color: Colors.transparent,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: textCDark,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : 1,
+                          ),
+                        ),
+                      );
+                    },
+                  )
                 : Container(
-              height: 100,
-              width: 100,
-              color: Colors.grey,
-              child: const Center(child: Text('No Image')),
-            ),
+                    height: 100,
+                    width: 100,
+                    color: Colors.grey,
+                    child: const Center(child: Text('No Image')),
+                  ),
           ),
           const SizedBox(width: 15),
           Expanded(

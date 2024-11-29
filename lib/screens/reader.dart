@@ -34,12 +34,17 @@ class _ReaderPageState extends State<ReaderPage> {
   late Box<int> _bookProgressBox; // Hive box for storing book progress
   final TextEditingController _textEditingController =
       TextEditingController(text: "");
+
   @override
   void initState() {
     super.initState();
     _bookProgressBox = Hive.box<int>('bookProgress'); // Initialize Hive box
     _sliderValue = 20;
-    words = widget.data.replaceAll("\n", " ").split(' ').where((word) => word.isNotEmpty).toList();
+    words = widget.data
+        .replaceAll("\n", " ")
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .toList();
     _audio = "";
     _definition = "";
     _transcription = "Click a Word For its Pronunciation";
@@ -320,8 +325,9 @@ class _ReaderPageState extends State<ReaderPage> {
                           fontWeight: FontWeight.w900),
                     ),
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: textCDark, width: 4),
-                        borderRadius: const BorderRadius.all(Radius.circular(20))),
+                        side: BorderSide(color: textCDark, width: 4),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20))),
                     backgroundColor: toColor("bef3ed").withOpacity(0.9),
                     content: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -358,7 +364,8 @@ class _ReaderPageState extends State<ReaderPage> {
                               intVal = int.parse(val);
 
                               // Calculate the maximum page number
-                              int totalPages = (words.length / wordsPerPage).ceil();
+                              int totalPages =
+                                  (words.length / wordsPerPage).ceil();
 
                               // Adjust intVal based on the conditions
                               if (intVal < 1) {
@@ -371,7 +378,8 @@ class _ReaderPageState extends State<ReaderPage> {
                               intVal = (intVal - 1) * wordsPerPage;
 
                               setState(() {
-                                currentIndex = intVal; // Set the current index to the new value
+                                currentIndex =
+                                    intVal; // Set the current index to the new value
                                 _saveProgress(); // Save progress when user navigates
                               });
                             } catch (e) {
@@ -386,12 +394,11 @@ class _ReaderPageState extends State<ReaderPage> {
                             elevation: const WidgetStatePropertyAll(0),
                             shape: WidgetStateProperty.all(
                               RoundedRectangleBorder(
-                                side: BorderSide(color: textCDark, width: 4),
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(10))),
+                                  side: BorderSide(color: textCDark, width: 4),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
                             ),
-                            backgroundColor:
-                                WidgetStateProperty.all(textCDark),
+                            backgroundColor: WidgetStateProperty.all(textCDark),
                           ),
                           child: Container(
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -399,7 +406,10 @@ class _ReaderPageState extends State<ReaderPage> {
                               child: Text(
                                 "Go to Page",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: toColor("b2e6e0"), fontSize: 20, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: toColor("b2e6e0"),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
                               )))
                     ],
                   );
