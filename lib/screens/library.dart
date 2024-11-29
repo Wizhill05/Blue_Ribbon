@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../reusable.dart';
 import 'package:hive/hive.dart'; // Import Hive
 import 'package:hive_flutter/hive_flutter.dart';
-import '../route_observer.dart';// Import the RouteObserver
+import '../route_observer.dart'; // Import the RouteObserver
 import '../elements/book.dart';
 
 class Library extends StatefulWidget {
@@ -156,12 +156,7 @@ class _LibraryState extends State<Library> with RouteAware {
                             final progress = _bookProgressBox.get(title) ?? 0;
 
                             return Book(
-                              context,
-                              link,
-                              title,
-                              bookText,
-                              progress
-                            );
+                                context, link, title, bookText, progress);
                           },
                         ).toList(),
                       ),
