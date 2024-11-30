@@ -35,7 +35,9 @@ class _AskState extends State<Ask> {
               summarizedText = await askServer(_text.text).then((_) {
                 return _;
               }, onError: (_) async {
-                String? temp = await askGemini(_text.text);
+                String? temp = await askGemini(
+                    "Summerize this thext so that its easier for a Dyslexic guy to read (Answer only in one paragraph): " +
+                        _text.text);
                 return temp;
               });
               Navigator.pushReplacement(

@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     if (list != null) {
-      if (list!.isNotEmpty)  {
+      if (list!.isNotEmpty) {
         return (MaterialApp(
           debugShowCheckedModeBanner: false,
           home: ReaderPage(
@@ -114,7 +114,6 @@ class _MyAppState extends State<MyApp> {
 
 Future<String?> askGemini(String question) async {
   final gemini = Gemini.instance;
-  question = "Summarize this text in simple to read english: $question";
 
   try {
     final responseStream = gemini.streamGenerateContent(question);
@@ -144,10 +143,6 @@ Future<String> askServer(String question) async {
     body: jsonEncode({
       'model': 'phi-3.5-mini-instruct',
       'messages': [
-        {
-          'role': 'system',
-          'content': 'Summarize this text in simple to read english:'
-        },
         {'role': 'user', 'content': question}
       ],
       'temperature': 0.7,
