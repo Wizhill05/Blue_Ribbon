@@ -1,6 +1,4 @@
 # Blue Ribbon
-## Team Contrast | Hackloop 2024
-
 This Flutter application is designed to assist individuals with dyslexia in reading and comprehending text more effectively. The app uses advanced APIs and a user-friendly interface to simplify text presentation, making reading a smoother and more engaging experience.
 
 <details>
